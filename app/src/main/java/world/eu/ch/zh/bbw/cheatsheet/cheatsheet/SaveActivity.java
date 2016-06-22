@@ -33,6 +33,13 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private Location location;
 
+
+    //Foto erstellen
+    //https://developer.android.com/training/camera/photobasics.html
+
+    //Odner erstellen
+    //https://developer.android.com/training/basics/data-storage/files.html
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

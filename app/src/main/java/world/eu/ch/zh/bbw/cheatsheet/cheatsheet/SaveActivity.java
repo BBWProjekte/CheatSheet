@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,10 +27,11 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class SaveActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SaveActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Serializable {
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = SaveActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private Location location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
             Log.i(TAG, "No permissions!");
             return;
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location == null) {
             Log.i(TAG, "location is null");
         }
@@ -85,6 +87,8 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     {
         Log.d(TAG, "Click Ort!");
         Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("Latitude", location.getLatitude());
+        intent.putExtra("Longitude", location.getLongitude());
         startActivityForResult(intent, 0);
     }
 

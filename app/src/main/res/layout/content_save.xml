@@ -19,10 +19,42 @@
         android:layout_width="match_parent" />
     <EditText
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/desc_title"/>
+        android:layout_weight="1"
+        android:inputType="text"
+        android:text="" />
 
+    <TextView
+        android:id="@+id/desc_photo"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:text="@string/desc_photo"/>
+    <Button
+        android:id="@+id/action_photo"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/desc_photo"
+        android:text="@string/action_photo"
+        android:background="#FFA500"
+        android:textColor="#303F9F"
+        />
+
+    <TextView
+        android:id="@+id/desc_note"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/action_photo"
+        android:text="@string/desc_note"/>
+
+
+    <!-- android:gravity for API 16 and lower -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +71,8 @@
         android:visibility="visible"
         android:onClick="onClickOrt"
         android:nestedScrollingEnabled="false"
-        android:textAlignment="viewEnd" />
+        android:textAlignment="viewEnd"
+        android:gravity="end"/>
 
 
 </RelativeLayout>

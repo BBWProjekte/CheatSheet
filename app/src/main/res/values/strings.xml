@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Cheat Sheet</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Note Desc -->
     <string name="desc_title">Titel</string>
+    <string name="desc_place">Ort</string>
+
+    <!-- Misc -->
+    <string name="undefined">null</string>
 </resources>

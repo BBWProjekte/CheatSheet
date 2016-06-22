@@ -13,8 +13,27 @@
     tools:showIn="@layout/activity_save">
 
     <TextView
+        android:id="@+id/desc_title"
         android:layout_height="match_parent"
         android:text="@string/desc_title"
         android:layout_width="match_parent" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/desc_title"/>
+
+    <TextView
+        android:id="@+id/desc_place"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/place"
+        android:text="@string/desc_place"/>
+    <TextView
+        android:id="@+id/place"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/desc_place"
+        android:text="@string/undefined"/>
+
 
 </RelativeLayout>

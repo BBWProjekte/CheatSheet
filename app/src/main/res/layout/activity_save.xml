@@ -21,8 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:layout_height="match_parent"
-        android:text="@string/desc_title"
-        android:layout_width="match_parent" />
+    <include layout="@layout/content_save" />
+
 </LinearLayout>

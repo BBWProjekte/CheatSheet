@@ -1,6 +1,6 @@
 package world.eu.ch.zh.bbw.cheatsheet.cheatsheet;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -11,12 +11,17 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,15 +81,28 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
+    public void onClickOrt(View v)
+    {
+        Log.d(TAG, "Click Ort!");
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
     private void handleNewLocation(Location location) throws IOException {
         Log.d(TAG + ": Latitude", String.valueOf(location.getLatitude()));
         Log.d(TAG + ": Longitude", String.valueOf(location.getLongitude()));
-        Log.d(TAG + ": Accuracy", String.valueOf(location.getAccuracy()));
 
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
         if (addresses.size() > 0)
             Log.d(TAG + ": City", addresses.get(0).getLocality());
+            TextView txtOrt = (TextView) findViewById(R.id.txtOrt);
+
+            DateFormat format = new SimpleDateFormat("dd. MMM yyyy HH:mm");
+            Date date = new Date(location.getTime());
+            String formatted = format.format(date);
+
+            txtOrt.setText(addresses.get(0).getLocality() + ", " + formatted);
     }
 
     @Override

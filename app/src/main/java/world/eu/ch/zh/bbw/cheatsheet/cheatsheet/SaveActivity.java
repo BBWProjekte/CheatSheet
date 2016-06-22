@@ -107,13 +107,13 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
         if (addresses.size() > 0)
             Log.d(TAG + ": City", addresses.get(0).getLocality());
-            TextView txtOrt = (TextView) findViewById(R.id.txtOrt);
+            TextView place = (TextView) findViewById(R.id.place);
 
             DateFormat format = new SimpleDateFormat("dd. MMM yyyy HH:mm");
             Date date = new Date(location.getTime());
             String formatted = format.format(date);
 
-            txtOrt.setText(addresses.get(0).getLocality() + ", " + formatted);
+            place.setText(addresses.get(0).getLocality() + ", " + formatted);
     }
 
     @Override

@@ -3,6 +3,8 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_delete">Löschen</string>
     <string name="action_photo">Foto hinzufügen</string>
+    <string name="action_save">Speichern</string>
+    <string name="note_hint">Maximal 2000 Zeichen</string>
 
     <!-- Note Desc -->
     <string name="desc_title">Titel</string>

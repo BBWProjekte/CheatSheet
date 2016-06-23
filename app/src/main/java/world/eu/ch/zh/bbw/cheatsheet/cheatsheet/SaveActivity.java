@@ -1,15 +1,20 @@
 package world.eu.ch.zh.bbw.cheatsheet.cheatsheet;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +27,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -37,7 +44,12 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private Location location;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private String imagePath = null;
     private Button action_photo;
+    private String mCurrentPhotoPath;
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+
 
 
     //Foto erstellen
@@ -126,19 +138,41 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
 
     public void dispatchTakePictureIntent(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(!action_photo.isEnabled()){
+        if(!action_photo.isEnabled())
+        {
             Context context = getApplicationContext();
             CharSequence text = "Der Knopf ist gesperrt.";
             int duration = Toast.LENGTH_LONG;
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-        } else {
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                action_photo.setEnabled(false);
+        }
+        else
+        {
+            try
+            {
+                Uri picPath = getImageDirectory();
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, picPath);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null)
+            {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                action_photo.setEnabled(false);
+                //startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
+    }
+
+    private Uri getImageDirectory() throws IOException {
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        path = path + "/CheatSheet/pictures/JPEG_" + timeStamp + ".jpg";
+        imagePath = path;
+        return Uri.fromFile(new File(path));
     }
 
     @Override

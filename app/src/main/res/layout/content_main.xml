@@ -12,10 +12,12 @@
     tools:context="world.eu.ch.zh.bbw.cheatsheet.cheatsheet.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="igin"
-        android:id="@+id/textView" />
+        android:divider="#b5b5b5"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector" />
 
 </RelativeLayout>

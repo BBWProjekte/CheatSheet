@@ -93,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/place"
         android:text="@string/action_save"
+        android:onClick="saveNote"
         android:background="#FFA500"
         android:textColor="#303F9F"/>
 

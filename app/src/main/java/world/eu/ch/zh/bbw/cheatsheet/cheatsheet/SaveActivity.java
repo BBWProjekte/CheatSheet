@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.XMLcreator;
+
 
 public class SaveActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Serializable {
     private GoogleApiClient mGoogleApiClient;
@@ -44,12 +47,16 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private Location location;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    private String correctLocation;
+
+    private EditText title;
+    private EditText note;
     private String imagePath = null;
     private Button action_photo;
     private String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
 
-
+    private XMLcreator xmlc = new XMLcreator();
 
 
     //Foto erstellen
@@ -62,6 +69,8 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save);
+        title = (EditText) findViewById(R.id.title);
+        note = (EditText) findViewById(R.id.note);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -133,7 +142,8 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
             Date date = new Date(location.getTime());
             String formatted = format.format(date);
 
-            place.setText(addresses.get(0).getLocality() + ", " + formatted);
+            correctLocation = addresses.get(0).getLocality() + ", " + formatted;
+            place.setText(correctLocation);
     }
 
     public void dispatchTakePictureIntent(View view) {
@@ -191,6 +201,18 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         } else {
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
+    }
+
+    public void saveNote(View view){
+
+        String titleString = title.getText().toString();
+        String noteString = note.getText().toString();
+
+        if(titleString.matches("") || noteString.matches("")){
+            Toast.makeText(this,"Es fehlen noch Eingaben. Alles überprüft?",Toast.LENGTH_SHORT).show();
+        } else {
+            xmlc.createXML(titleString, noteString, location, correctLocation, imagePath);
         }
     }
 }

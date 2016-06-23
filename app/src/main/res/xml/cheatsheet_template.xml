@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheets>
+	<cheatsheet>
+		<id>1</id>
+		<title>Testnotiz</title>
+		<note>Das ist ein cooler Text.</note>
+		<location>
+			<long>0</long>
+			<lat>0</lat>
+			<info>Winterthur, 11. Juni 2011 16:00</info>
+		</location>
+		<src></src>
+	</cheatsheet>
+</cheatsheets>

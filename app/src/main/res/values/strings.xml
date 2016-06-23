@@ -14,5 +14,8 @@
 
     <!-- Misc -->
     <string name="undefined">null</string>
+    <string name="photo_not_found">Das Foto konnte nicht gefunden werden.</string>
+    <string name="button_disabled">Der Knopf ist gesperrt.</string>
     <string name="title_activity_maps">Map</string>
+    <string name="error_fatal">Ein Fehler ist aufgetreten.</string>
 </resources>

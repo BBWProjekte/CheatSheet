@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.XMLcreator;
+// import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.XMLcreator;
 
 
 public class SaveActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, Serializable {
@@ -56,7 +56,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private String mCurrentPhotoPath;
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    private XMLcreator xmlc = new XMLcreator();
+   // private XMLcreator xmlc = new XMLcreator();
 
 
     //Foto erstellen
@@ -151,7 +151,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         if(!action_photo.isEnabled())
         {
             Context context = getApplicationContext();
-            CharSequence text = "Der Knopf ist gesperrt.";
+            CharSequence text = getResources().getString(R.string.button_disabled);
             int duration = Toast.LENGTH_LONG;
 
             Toast toast = Toast.makeText(context, text, duration);
@@ -212,7 +212,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         if(titleString.matches("") || noteString.matches("")){
             Toast.makeText(this,"Es fehlen noch Eingaben. Alles überprüft?",Toast.LENGTH_SHORT).show();
         } else {
-            xmlc.createXML(titleString, noteString, location, correctLocation, imagePath);
+          //  xmlc.createXML(titleString, noteString, location, correctLocation, imagePath);
         }
     }
 }

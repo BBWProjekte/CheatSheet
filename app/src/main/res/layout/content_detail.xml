@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,7 +19,8 @@
         android:id="@+id/desc_title"
         android:layout_height="match_parent"
         android:text="@string/desc_title"
-        android:layout_width="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"/>
     <EditText
         android:id="@+id/title"
         android:layout_marginTop="10dp"
@@ -24,8 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/desc_title"
         android:layout_weight="1"
-        android:inputType="text"
-        android:text="THANK YOU DONALD"
+        android:inputType="none"
         android:editable="false" />
 
     <TextView
@@ -33,6 +36,7 @@
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/title"
         android:text="@string/desc_photo"/>
     <ImageView
         android:id="@+id/photo"
@@ -55,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/desc_note"
         android:layout_weight="1"
-        android:inputType="textCapSentences|textMultiLine"
+        android:inputType="none"
         android:maxLength="2000"
         android:maxLines="8"
         android:editable="false"/>
@@ -83,3 +87,4 @@
         android:gravity="end"/>
 
 </RelativeLayout>
+</ScrollView>

@@ -1,5 +1,6 @@
 package world.eu.ch.zh.bbw.cheatsheet.cheatsheet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -7,12 +8,15 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,6 +36,8 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     public static final String TAG = SaveActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private Location location;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Button action_photo;
 
 
     //Foto erstellen
@@ -52,6 +58,8 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        action_photo = (Button) findViewById(R.id.action_photo);
     }
 
     @Override
@@ -114,6 +122,23 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
             String formatted = format.format(date);
 
             place.setText(addresses.get(0).getLocality() + ", " + formatted);
+    }
+
+    public void dispatchTakePictureIntent(View view) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(!action_photo.isEnabled()){
+            Context context = getApplicationContext();
+            CharSequence text = "Der Knopf ist gesperrt.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else {
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                action_photo.setEnabled(false);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
     }
 
     @Override

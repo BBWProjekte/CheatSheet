@@ -53,17 +53,6 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private EditText note;
     private String imagePath = null;
     private Button action_photo;
-    private String mCurrentPhotoPath;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    private XMLcreator xmlc = new XMLcreator();
-
-
-    //Foto erstellen
-    //https://developer.android.com/training/camera/photobasics.html
-
-    //Odner erstellen
-    //https://developer.android.com/training/basics/data-storage/files.html
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

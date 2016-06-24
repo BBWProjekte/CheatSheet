@@ -1,20 +1,18 @@
 package world.eu.ch.zh.bbw.cheatsheet.cheatsheet;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.HashMap;
 
 /**
  * Created by janes_000 on 23.06.2016.
@@ -33,13 +31,15 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        photoFile = new File("PFAD");
+        HashMap<String, String> data = (HashMap<String, String>)getIntent().getSerializableExtra("Data");
+
+        photoFile = new File(data.get(VariableDump.KEY_PICTURE));
 
         title = (EditText) findViewById(R.id.title);
-        title.setText("Das ist ein cooler Titel");
+        title.setText(data.get(VariableDump.KEY_TITLE));
 
         note = (EditText) findViewById(R.id.note);
-        note.setText("Das Bild da oben ist wirklich sehr schön.");
+        note.setText(data.get(VariableDump.KEY_NOTE));
 
         photo = (ImageView) findViewById(R.id.photo);
 

@@ -12,8 +12,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.MainActivity;
 import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.R;
+import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.VariableDump;
 
 public class LazyAdapter extends BaseAdapter {
 
@@ -50,13 +50,18 @@ public class LazyAdapter extends BaseAdapter {
         TextView location = (TextView)vi.findViewById(R.id.location); // location
         ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
 
-        HashMap<String, String> song = new HashMap<String, String>();
-        song = data.get(position);
+        HashMap<String, String> note = new HashMap<String, String>();
+        note = data.get(position);
 
         // Setting all values in listview
-        title.setText(song.get(MainActivity.KEY_TITLE));
-        location.setText(song.get(MainActivity.KEY_LOCATIONANDDATE));
-        imageLoader.DisplayImage(song.get(MainActivity.KEY_PICTURE), thumb_image);
+        title.setText(note.get(VariableDump.KEY_TITLE));
+        location.setText(note.get(VariableDump.KEY_LOCATIONANDDATE));
+        imageLoader.DisplayImage(note.get(VariableDump.KEY_PICTURE), thumb_image);
         return vi;
+    }
+
+    public HashMap<String, String> getData(int id)
+    {
+        return data.get(id);
     }
 }

@@ -3,6 +3,7 @@ package world.eu.ch.zh.bbw.cheatsheet.cheatsheet;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,16 +26,6 @@ import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.ListView.XMLParser;
 import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.XMLcreator;
 
 public class MainActivity extends AppCompatActivity {
-    // All static variables
-    public static final String URL = Environment.getExternalStorageDirectory().getAbsolutePath() + "/CheatSheet/cheatsheets.xml";
-    // XML node keys
-    public static final String KEY_NOTE = "cheatsheet"; // parent node
-    public static final String KEY_TITLE = "title";
-    public static final String KEY_LOCATION = "location";
-    public static final String KEY_LONGITUDE = "longi";
-    public static final String KEY_LATITUDE = "lat";
-    public static final String KEY_LOCATIONANDDATE = "info";
-    public static final String KEY_PICTURE = "src";
 
     ListView list;
     LazyAdapter adapter;
@@ -63,22 +54,23 @@ public class MainActivity extends AppCompatActivity {
 
         if(doc != null)
         {
-            NodeList nl = doc.getElementsByTagName(KEY_NOTE);
+            NodeList nl = doc.getElementsByTagName(VariableDump.KEY_NOTE);
             // looping through all song nodes &lt;song&gt;
             for (int i = 0; i < nl.getLength(); i++) {
                 // creating new HashMap
                 HashMap<String, String> map = new HashMap<String, String>();
                 Element e = (Element) nl.item(i);
                 // adding each child node to HashMap key =&gt; value
-                map.put(KEY_TITLE, parser.getValue(e, KEY_TITLE));
+                map.put(VariableDump.KEY_TITLE, parser.getValue(e, VariableDump.KEY_TITLE));
 
-                NodeList nlLocation = doc.getElementsByTagName(KEY_LOCATION);
+                NodeList nlLocation = doc.getElementsByTagName(VariableDump.KEY_LOCATION);
                 Element eLoc = (Element)nlLocation.item(0);
-                map.put(KEY_LATITUDE, parser.getValue(eLoc, KEY_LATITUDE));
-                map.put(KEY_LONGITUDE, parser.getValue(eLoc, KEY_LONGITUDE));
-                map.put(KEY_LOCATIONANDDATE, parser.getValue(eLoc, KEY_LOCATIONANDDATE));
+                map.put(VariableDump.KEY_LATITUDE, parser.getValue(eLoc, VariableDump.KEY_LATITUDE));
+                map.put(VariableDump.KEY_LONGITUDE, parser.getValue(eLoc, VariableDump.KEY_LONGITUDE));
+                map.put(VariableDump.KEY_LOCATIONANDDATE, parser.getValue(eLoc, VariableDump.KEY_LOCATIONANDDATE));
+                map.put(VariableDump.KEY_NOTE, parser.getValue(e, VariableDump.KEY_NOTE));
 
-                map.put(KEY_PICTURE, parser.getValue(e, KEY_PICTURE));
+                map.put(VariableDump.KEY_PICTURE, parser.getValue(e, VariableDump.KEY_PICTURE));
 
                 // adding HashList to ArrayList
                 notesList.add(map);
@@ -96,7 +88,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                 {
-                    Log.i("Click", "Aids");
+                    Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                    int itemId = (int) parent.getSelectedItemId();
+                    intent.putExtra("Data", ((LazyAdapter)parent.getAdapter()).getData(itemId));
+                    startActivityForResult(intent,0);
                 }
             });
         }

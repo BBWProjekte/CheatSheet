@@ -1,7 +1,7 @@
 package world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document;
 
 import android.location.Location;
-import android.os.Environment;
+import android.util.Log;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,7 +21,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.MainActivity;
+import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.VariableDump;
 
 public class XMLcreator {
 
@@ -51,7 +51,7 @@ public class XMLcreator {
                 else
                 {
                     isExisting = true;
-                    rootEle = (Element) dom.getElementsByTagName("cheatsheets");
+                    rootEle = (Element) dom.getElementsByTagName("cheatsheets").item(0);
                 }
 
                 // create data elements and place them under root
@@ -67,6 +67,7 @@ public class XMLcreator {
                 subEle.appendChild(e);
 
                 e = dom.createElement("src");
+                Log.i("Source", src);
                 e.appendChild(dom.createTextNode(src));
                 subEle.appendChild(e);
 
@@ -97,7 +98,7 @@ public class XMLcreator {
                     tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
                     // send DOM to file
-                    File file = new File(MainActivity.URL);
+                    File file = new File(VariableDump.URL);
                     file.createNewFile();
                     tr.transform(new DOMSource(dom),new StreamResult(new FileOutputStream(file)));
 
@@ -116,7 +117,7 @@ public class XMLcreator {
     {
         try
         {
-            File fXmlFile = new File(MainActivity.URL);
+            File fXmlFile = new File(VariableDump.URL);
             if(fXmlFile.exists())
             {
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

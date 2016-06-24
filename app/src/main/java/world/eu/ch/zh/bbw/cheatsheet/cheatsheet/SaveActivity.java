@@ -47,7 +47,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private Location location;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private String correctLocation;
+    private String correctLocation = "";
 
     private EditText title;
     private EditText note;
@@ -204,6 +204,12 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         else
         {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+
             XMLcreator.createXML(titleString, noteString, location, correctLocation, imagePath);
             Intent intent = new Intent(this, MainActivity.class);
             startActivityForResult(intent, 0);

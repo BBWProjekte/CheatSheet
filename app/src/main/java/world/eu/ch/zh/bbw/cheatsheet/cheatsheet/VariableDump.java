@@ -12,6 +12,7 @@ public class VariableDump
     // XML node keys
     public static final String KEY_NOTE = "cheatsheet"; // parent node
     public static final String KEY_TITLE = "title";
+    public static final String KEY_TEXT = "note";
     public static final String KEY_LOCATION = "location";
     public static final String KEY_LONGITUDE = "longi";
     public static final String KEY_LATITUDE = "lat";

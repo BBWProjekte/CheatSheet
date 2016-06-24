@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView list;
     LazyAdapter adapter;
+    private long itemId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<HashMap<String, String>> notesList = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> notesList = new ArrayList<>();
 
         Document doc = XMLcreator.getDocument();
 
@@ -55,22 +56,20 @@ public class MainActivity extends AppCompatActivity {
         if(doc != null)
         {
             NodeList nl = doc.getElementsByTagName(VariableDump.KEY_NOTE);
-            // looping through all song nodes &lt;song&gt;
-            for (int i = 0; i < nl.getLength(); i++) {
-                // creating new HashMap
-                HashMap<String, String> map = new HashMap<String, String>();
-                Element e = (Element) nl.item(i);
-                // adding each child node to HashMap key =&gt; value
-                map.put(VariableDump.KEY_TITLE, parser.getValue(e, VariableDump.KEY_TITLE));
 
-                NodeList nlLocation = doc.getElementsByTagName(VariableDump.KEY_LOCATION);
+            for (int i = 0; i < nl.getLength(); i++)
+            {
+                HashMap<String, String> map = new HashMap<>();
+                Element e = (Element) nl.item(i);
+                map.put(VariableDump.KEY_TITLE, parser.getValue(e, VariableDump.KEY_TITLE));
+                map.put(VariableDump.KEY_TEXT, parser.getValue(e, VariableDump.KEY_TEXT));
+                map.put(VariableDump.KEY_PICTURE, parser.getValue(e, VariableDump.KEY_PICTURE));
+
+                NodeList nlLocation = e.getElementsByTagName(VariableDump.KEY_LOCATION);
                 Element eLoc = (Element)nlLocation.item(0);
                 map.put(VariableDump.KEY_LATITUDE, parser.getValue(eLoc, VariableDump.KEY_LATITUDE));
                 map.put(VariableDump.KEY_LONGITUDE, parser.getValue(eLoc, VariableDump.KEY_LONGITUDE));
                 map.put(VariableDump.KEY_LOCATIONANDDATE, parser.getValue(eLoc, VariableDump.KEY_LOCATIONANDDATE));
-                map.put(VariableDump.KEY_NOTE, parser.getValue(e, VariableDump.KEY_NOTE));
-
-                map.put(VariableDump.KEY_PICTURE, parser.getValue(e, VariableDump.KEY_PICTURE));
 
                 // adding HashList to ArrayList
                 notesList.add(map);
@@ -89,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                 {
                     Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                    int itemId = (int) parent.getSelectedItemId();
-                    intent.putExtra("Data", ((LazyAdapter)parent.getAdapter()).getData(itemId));
+                    intent.putExtra("Data", ((LazyAdapter)parent.getAdapter()).getData(position));
                     startActivityForResult(intent,0);
                 }
             });

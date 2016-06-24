@@ -31,12 +31,10 @@ public class XMLcreator {
             Boolean isExisting = false;
             Element e = null;
 
-            // instance of a DocumentBuilderFactory
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            try {
-                // use factory to get an instance of document builder
+            try
+            {
                 DocumentBuilder db = dbf.newDocumentBuilder();
-                // create instance of DOM
 
 
                 Element rootEle = null;

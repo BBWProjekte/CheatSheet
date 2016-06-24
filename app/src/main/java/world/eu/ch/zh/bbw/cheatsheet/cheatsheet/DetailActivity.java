@@ -39,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
         title.setText(data.get(VariableDump.KEY_TITLE));
 
         note = (EditText) findViewById(R.id.note);
-        note.setText(data.get(VariableDump.KEY_NOTE));
+        note.setText(data.get(VariableDump.KEY_TEXT));
 
         photo = (ImageView) findViewById(R.id.photo);
 

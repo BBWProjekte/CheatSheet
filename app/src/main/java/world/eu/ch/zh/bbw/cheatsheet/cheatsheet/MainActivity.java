@@ -16,19 +16,13 @@ import android.widget.ListView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.ListView.LazyAdapter;
 import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.ListView.XMLParser;
+import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.XMLcreator;
 
 public class MainActivity extends AppCompatActivity {
     // All static variables
@@ -61,22 +55,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+        ArrayList<HashMap<String, String>> notesList = new ArrayList<HashMap<String, String>>();
 
-        Document doc = null;
-        try
-        {
-            File fXmlFile = new File(URL);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            doc = dBuilder.parse(fXmlFile);
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        }
+        Document doc = XMLcreator.getDocument();
 
         XMLParser parser = new XMLParser();
 
@@ -100,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
                 map.put(KEY_PICTURE, parser.getValue(e, KEY_PICTURE));
 
                 // adding HashList to ArrayList
-                songsList.add(map);
+                notesList.add(map);
             }
 
             list=(ListView)findViewById(R.id.list);
 
             // Getting adapter by passing xml data ArrayList
-            adapter=new LazyAdapter(this, songsList);
+            adapter=new LazyAdapter(this, notesList);
             list.setAdapter(adapter);
 
             // Click event for single list row

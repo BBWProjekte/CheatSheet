@@ -1,51 +1,136 @@
 package world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document;
 
 import android.location.Location;
+import android.os.Environment;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.MainActivity;
-import world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.entity.CheatSheet;
 
-/**
- * Created by janes_000 on 23.06.2016.
- */
 public class XMLcreator {
 
-    public void createXML(String title, String note, Location location, String correctLocation, String src) {
+    public static void createXML(String title, String note, Location location, String correctLocation, String src)
+    {
+            Document dom;
+            Boolean isExisting = false;
+            Element e = null;
 
-        CheatSheet cs = new CheatSheet();
-        world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.entity.Location loc = new world.eu.ch.zh.bbw.cheatsheet.cheatsheet.document.entity.Location();
+            // instance of a DocumentBuilderFactory
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            try {
+                // use factory to get an instance of document builder
+                DocumentBuilder db = dbf.newDocumentBuilder();
+                // create instance of DOM
 
-        loc.setLongi(location.getLongitude());
-        loc.setLat(location.getLatitude());
-        loc.setInfo(correctLocation);
 
-        cs.setTitle(title);
-        cs.setNote(note);
-        cs.setLoc(loc);
-        cs.setSrc(src);
+                Element rootEle = null;
+                dom = getDocument();
+                if(dom == null)
+                {
+                    dom = db.newDocument();
 
-        try {
+                    // create the root element
+                    rootEle = dom.createElement("cheatsheets");
+                }
+                else
+                {
+                    isExisting = true;
+                    rootEle = (Element) dom.getElementsByTagName("cheatsheets");
+                }
 
-            File file = new File(MainActivity.URL);
-            JAXBContext jaxbContext = JAXBContext.newInstance(CheatSheet.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+                // create data elements and place them under root
+                Element subEle = dom.createElement("cheatsheet");
+                rootEle.appendChild(subEle);
 
-            // output pretty printed
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                e = dom.createElement("title");
+                e.appendChild(dom.createTextNode(title));
+                subEle.appendChild(e);
 
-            jaxbMarshaller.marshal(cs, file);
-            jaxbMarshaller.marshal(cs, System.out);
+                e = dom.createElement("note");
+                e.appendChild(dom.createTextNode(note));
+                subEle.appendChild(e);
 
-        } catch (JAXBException e) {
+                e = dom.createElement("src");
+                e.appendChild(dom.createTextNode(src));
+                subEle.appendChild(e);
+
+                Element locationSub = dom.createElement("location");
+                subEle.appendChild(locationSub);
+
+                e = dom.createElement("info");
+                e.appendChild(dom.createTextNode(correctLocation));
+                locationSub.appendChild(e);
+
+                e = dom.createElement("longi");
+                e.appendChild(dom.createTextNode(String.valueOf(location.getLongitude())));
+                locationSub.appendChild(e);
+
+                e = dom.createElement("lat");
+                e.appendChild(dom.createTextNode(String.valueOf(location.getLatitude())));
+                locationSub.appendChild(e);
+
+                if(!isExisting)
+                {
+                    dom.appendChild(rootEle);
+                }
+
+                try {
+                    Transformer tr = TransformerFactory.newInstance().newTransformer();
+                    tr.setOutputProperty(OutputKeys.INDENT, "yes");
+                    tr.setOutputProperty(OutputKeys.METHOD, "xml");
+                    tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+                    // send DOM to file
+                    File file = new File(MainActivity.URL);
+                    file.createNewFile();
+                    tr.transform(new DOMSource(dom),new StreamResult(new FileOutputStream(file)));
+
+                } catch (TransformerException te) {
+                    System.out.println(te.getMessage());
+                } catch (IOException ioe) {
+                    System.out.println(ioe.getMessage());
+                }
+            } catch (ParserConfigurationException pce) {
+                System.out.println("UsersXML: Error trying to instantiate DocumentBuilder " + pce);
+            }
+
+    }
+
+    public static Document getDocument()
+    {
+        try
+        {
+            File fXmlFile = new File(MainActivity.URL);
+            if(fXmlFile.exists())
+            {
+                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                return dBuilder.parse(fXmlFile);
+            }
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-
+        return null;
     }
 
 }

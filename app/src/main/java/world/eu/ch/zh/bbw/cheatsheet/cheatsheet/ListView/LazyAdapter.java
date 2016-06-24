@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,8 @@ public class LazyAdapter extends BaseAdapter {
         // Setting all values in listview
         title.setText(note.get(VariableDump.KEY_TITLE));
         location.setText(note.get(VariableDump.KEY_LOCATIONANDDATE));
-        imageLoader.DisplayImage(note.get(VariableDump.KEY_PICTURE), thumb_image);
+        Bitmap myBitmap = BitmapFactory.decodeFile(note.get(VariableDump.KEY_PICTURE));
+        thumb_image.setImageBitmap(myBitmap);
         return vi;
     }
 

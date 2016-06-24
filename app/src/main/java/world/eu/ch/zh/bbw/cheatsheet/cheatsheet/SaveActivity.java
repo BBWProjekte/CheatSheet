@@ -53,6 +53,17 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
     private EditText note;
     private String imagePath = null;
     private Button action_photo;
+    private String mCurrentPhotoPath;
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+    private XMLcreator xmlc = new XMLcreator();
+
+
+    //Foto erstellen
+    //https://developer.android.com/training/camera/photobasics.html
+
+    //Odner erstellen
+    //https://developer.android.com/training/basics/data-storage/files.html
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +151,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         if(!action_photo.isEnabled())
         {
             Context context = getApplicationContext();
-            CharSequence text = "Der Knopf ist gesperrt.";
+            CharSequence text = getResources().getString(R.string.button_disabled);
             int duration = Toast.LENGTH_LONG;
 
             Toast toast = Toast.makeText(context, text, duration);

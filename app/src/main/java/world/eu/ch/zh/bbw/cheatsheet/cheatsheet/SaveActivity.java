@@ -51,7 +51,7 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private EditText title;
     private EditText note;
-    private String imagePath = null;
+    private String imagePath = "";
     private Button action_photo;
 
     @Override
@@ -198,10 +198,15 @@ public class SaveActivity extends AppCompatActivity implements GoogleApiClient.C
         String titleString = title.getText().toString();
         String noteString = note.getText().toString();
 
-        if(titleString.matches("") || noteString.matches("")){
+        if(titleString.matches("") || noteString.matches(""))
+        {
             Toast.makeText(this,"Es fehlen noch Eingaben. Alles überprüft?",Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else
+        {
             XMLcreator.createXML(titleString, noteString, location, correctLocation, imagePath);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityForResult(intent, 0);
         }
     }
 }
